@@ -44,9 +44,9 @@ class WisataController extends Controller
     ]);
 
     $file = $request->file('gambar_wisata');
-    $namaFile = time() . '.' . $file->getClientOriginalName();
+    $namaFile = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
     $file->move(public_path('image'), $namaFile);
-
+    
     Wisata::create([
         'nama_wisata' => $request->nama_wisata,
         'deskripsi_wisata' => $request->deskripsi_wisata,
@@ -101,7 +101,7 @@ class WisataController extends Controller
 
         // Upload gambar baru
         $file = $request->file('gambar_wisata');
-        $filename = time() . '_' . $file->getClientOriginalName();
+        $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
         $file->move(public_path('image'), $filename);
 
         $wisata->gambar_wisata = $filename;

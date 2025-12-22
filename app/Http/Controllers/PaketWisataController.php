@@ -57,7 +57,7 @@ class PaketWisataController extends Controller
     // Simpan file gambar ke folder public/image
     if ($request->hasFile('gambar_paket')) {
         $file = $request->file('gambar_paket');
-        $filename = time() . '_' . $file->getClientOriginalName();
+        $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
         $file->move(public_path('image'), $filename);
     } else {
         $filename = null; // atau handle kalau wajib harus ada file
@@ -117,7 +117,7 @@ class PaketWisataController extends Controller
 
         // Upload gambar baru
         $file = $request->file('gambar_paket');
-        $filename = time() . '_' . $file->getClientOriginalName();
+        $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
         $file->move(public_path('image'), $filename);
 
         $paket->gambar_paket = $filename;

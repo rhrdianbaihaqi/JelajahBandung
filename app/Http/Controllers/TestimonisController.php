@@ -31,11 +31,10 @@ class TestimonisController extends Controller
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $nama_file = $file->getClientOriginalExtension();
+            $nama_file = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
             $file->move(public_path('image/testimoni'), $nama_file); // simpan ke public/image/testimoni
             $data['foto'] = $nama_file;
         }
-
 
         Testimoni::create($data);
 
@@ -69,7 +68,7 @@ class TestimonisController extends Controller
 
         // Simpan foto baru
         $file = $request->file('foto');
-        $nama_file = time() . '.' . $file->getClientOriginalExtension();
+        $nama_file = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
         $file->move(public_path('image/testimoni'), $nama_file);
         $data['foto'] = $nama_file;
     }

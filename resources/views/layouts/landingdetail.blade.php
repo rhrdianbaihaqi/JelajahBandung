@@ -16,22 +16,84 @@
 <body class="bg-fixed bg-center bg-cover" style="background-image: url('{{ asset('image/bandung.jpg') }}');">
   
   <!-- Navbar -->
-  <nav class="bg-gradient-to-b from-white/95 to-white/80 shadow fixed w-full z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <!-- Logo dan Judul -->
-      <a href="#" class="flex items-center space-x-2">
-        <img src="{{ asset('image/jelajah-bandung.png') }}" alt="Logo Jelajah Bandung" class="w-11 h-11 object-cover">
-        <span class="text-xl font-bold text-blue-600 pl-4 ">Jelajah Bandung</span>
-      </a>
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-b from-white/95 to-white/80 shadow fixed w-full z-50 transition-all duration-300" x-data="{ isOpen: false, scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)" :class="{ 'bg-white/95 shadow-md': scrolled, 'bg-white/80': !scrolled }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo dan Judul -->
+        <a href="#" class="flex items-center space-x-3 group">
+          <div class="relative overflow-hidden rounded-full p-1 transition-transform duration-300 transform group-hover:scale-110">
+            <img src="{{ asset('image/jelajah-bandung.png') }}" alt="Logo Jelajah Bandung" class="w-10 h-10 object-cover">
+          </div>
+          <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-400 group-hover:from-blue-600 group-hover:to-blue-300 transition-all duration-300 pl-4">Jelajah Bandung</span>
+        </a>
 
-      <!-- Menu -->
-      <ul class="flex space-x-6">
-        <li><a href="{{ route('landing.home') }}" class="hover:text-blue-600">Home</a></li>
-        <li><a href="#wisata" class="hover:text-blue-600">Detail Wisata</a></li>
-        <li><a href="#booking" class="hover:text-blue-600">Booking</a></li>
-        <li><a href="#kontak" class="hover:text-blue-600">Kontak</a></li>
-        <li><a href="{{ route('landing.tentang') }}" class="hover:text-blue-600">Tentang Kami</a></li>
-      </ul>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="{{ route('landing.home') }}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
+            Home
+            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+          </a>
+          <a href="#wisata" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
+            Detail Wisata
+            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+          </a>
+          <a href="#booking" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
+            Booking
+            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+          </a>
+          <a href="#kontak" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
+            Kontak
+            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+          </a>
+          <a href="{{ route('landing.tentang') }}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
+             Tentang Kami
+            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button @click="isOpen = !isOpen" type="button" class="text-gray-700 hover:text-blue-600 focus:outline-none transition-colors duration-200" aria-label="Toggle menu">
+             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+     <!-- Mobile Menu -->
+    <div x-show="isOpen" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-2"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-2"
+         class="md:hidden bg-white/95 backdrop-blur-md shadow-lg border-t border-gray-100 absolute w-full left-0 z-40">
+      <div class="flex flex-col px-4 pt-2 pb-6 space-y-2">
+         <a href="{{ route('landing.home') }}" @click="isOpen = false" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200 flex items-center space-x-2">
+           <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+           <span>Home</span>
+        </a>
+        <a href="#wisata" @click="isOpen = false" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200 flex items-center space-x-2">
+           <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+           <span>Detail Wisata</span>
+        </a>
+        <a href="#booking" @click="isOpen = false" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200 flex items-center space-x-2">
+           <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+           <span>Booking</span>
+        </a>
+        <a href="#kontak" @click="isOpen = false" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200 flex items-center space-x-2">
+           <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+           <span>Kontak</span>
+        </a>
+        <a href="{{ route('landing.tentang') }}" @click="isOpen = false" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200 flex items-center space-x-2">
+           <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+           <span>Tentang Kami</span>
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -87,9 +149,8 @@
   <script type="module">
   import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
   Chatbot.init({
-    chatflowid: "9138bf20-f034-4f5f-a24d-e6b3224bc998",
-    apiHost: "https://flowise.helpyou.id",
-
+    chatflowid: "68691e03-6061-44eb-9644-1402c0e19bc6",
+    apiHost: "https://cloud.flowiseai.com",
     theme: {
       button: {
         backgroundColor: '#3B81F6',
@@ -125,7 +186,7 @@
       chatWindow: {
         showTitle: true,
         title: 'Jelajah Bandung Bot',
-        welcomeMessage: 'Halo! Selamat datang di layanan informasi Jelajah Bandung 😊',
+        welcomeMessage: "Halo! 👋 Selamat datang di Jelajah Bandung. Saya siap membantu kamu menemukan paket wisata dan informasi liburan di Bandung 😊",
         errorMessage: 'Oops! Terjadi kesalahan.',
         backgroundColor: '#ffffff',
         height: 540,
@@ -133,8 +194,8 @@
         fontSize: 14,
         fontFamily: 'Inter, sans-serif',
         starterPrompts: [
-          "Apa saja pilihan paket wisata?",
-          "Bagaimana cara melakukan booking?"
+          "Alamat kantor Jelajah Bandung?",
+          "Jam operasional Jelajah Bandung?"
         ],
         botMessage: {
           backgroundColor: '#f1f5f9', // biru soft, enak di mata
