@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="manifest" href="{{ asset('manifest.json') }}">
+  <meta name="theme-color" content="#2563eb">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Jelajah Bandung">
+
+  <link rel="apple-touch-icon" href="{{ asset('icons/icon-192.png') }}">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jelajah Bandung</title>
@@ -240,6 +249,15 @@
       }
     }
   })
+</script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('Service Worker aktif:', reg.scope))
+        .catch(err => console.error('Service Worker gagal:', err));
+    });
+  }
 </script>
 </body>
 </html>
